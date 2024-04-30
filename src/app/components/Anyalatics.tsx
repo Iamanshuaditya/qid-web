@@ -1,8 +1,12 @@
+"use client";
 import { FaChevronRight } from "react-icons/fa";
 
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 
-import React from "react";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 interface personCard {
   img: string;
@@ -14,16 +18,168 @@ interface CardProps {
   children: React.ReactNode;
 }
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Analytics() {
+  const Container = useRef<HTMLDivElement | null>(null);
+  const ButtonContainer = useRef<HTMLDivElement | null>(null);
+  const ParaContainer = useRef<HTMLDivElement | null>(null);
+  const CardContainer = useRef<HTMLDivElement | null>(null);
+  useGSAP(() => {
+    const containerTl = gsap.timeline({ paused: true });
+    const buttonTl = gsap.timeline({ paused: true });
+    const ParaTl = gsap.timeline({ paused: true });
+    const CardTl = gsap.timeline({ paused: true });
+    const QrElement = Container.current?.querySelector(".qrelement");
+    const BusinessCard = Container.current?.querySelector(".business-card");
+    const ApiCard = Container.current?.querySelector(".api-card");
+    const FormCard = Container.current?.querySelector(".form-card");
+    const ButtonElement = ButtonContainer.current?.querySelector(".button");
+    const ParaElement = ParaContainer.current?.querySelector(".para");
+    const TitleElement = ParaContainer.current?.querySelector(".title");
+    const LeftCard = CardContainer.current?.querySelector(".left-card");
+    const middleCard = CardContainer.current?.querySelector(".middle-card");
+    const rightCard = CardContainer.current?.querySelector(".right-card");
+    if (QrElement && BusinessCard && ApiCard && FormCard) {
+      containerTl
+        .from(
+          QrElement,
+          {
+            x: "-100vw",
+            y: "-100vw",
+            opacity: 0,
+            duration: 2,
+            ease: "power3.out",
+          },
+          0,
+        )
+        .from(
+          BusinessCard,
+          {
+            x: "100vw",
+            opacity: 0,
+            duration: 2,
+            ease: "power3.out",
+          },
+          0,
+        )
+        .from(
+          ApiCard,
+          { y: "50vw", opacity: 0, duration: 2, ease: "power3.out" },
+          0,
+        )
+        .from(
+          FormCard,
+          {
+            x: "30vw",
+            opacity: 0,
+            duration: 2,
+            ease: "power3.out",
+          },
+          0,
+        );
+    }
+
+    if (ButtonElement) {
+      buttonTl.from(
+        ButtonElement,
+        { x: "-100vw", opacity: 0, duration: 1, ease: "power3.out", y: "20vw" },
+        0,
+      );
+    }
+
+    if (ParaElement && TitleElement) {
+      ParaTl.from(
+        ParaElement,
+        { x: "100vw", opacity: 0, duration: 1, ease: "power3.out" },
+        0,
+      ).from(
+        TitleElement,
+        { x: "100vw", opacity: 0, duration: 1, ease: "power3.out" },
+        0,
+      );
+    }
+    if (LeftCard && middleCard && rightCard) {
+      CardTl.from(
+        LeftCard,
+        {
+          x: "-100vw",
+          opacity: 0,
+          duration: 2,
+          ease: "power3.out",
+        },
+        0,
+      )
+        .from(
+          middleCard,
+          {
+            y: "50vw",
+            opacity: 0,
+            duration: 2,
+            ease: "power3.out",
+          },
+          0,
+        )
+        .from(
+          rightCard,
+          {
+            x: "100vw",
+            opacity: 0,
+            duration: 2,
+            ease: "power3.out",
+          },
+          0,
+        );
+    }
+
+    const containerTrigger = ScrollTrigger.create({
+      trigger: Container.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => containerTl.play(),
+    });
+
+    const ButtonTrigger = ScrollTrigger.create({
+      trigger: ButtonContainer.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => buttonTl.play(),
+    });
+    const ParaTrigger = ScrollTrigger.create({
+      trigger: ButtonContainer.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => ParaTl.play(),
+    });
+
+    const CardTrigger = ScrollTrigger.create({
+      trigger: CardContainer.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => CardTl.play(),
+    });
+
+    return () => {
+      containerTrigger.kill();
+      ButtonTrigger.kill();
+      ParaTrigger.kill();
+      CardTrigger.kill();
+    };
+  });
   return (
     <div
-      className="bg bg-repeat"
+      className="bg overflow-hidden bg-repeat"
+      ref={Container}
       style={{ backgroundImage: `url(/assets/bg2.png)` }}
     >
       <div className="h-full">
-        <div className="h-max w-full  bg-black/85 px-6  py-10 text-white xl:px-52  2xl:px-[750px]">
+        <div className="h-max w-full  bg-black/85 px-6  py-10 text-white xl:px-36  2xl:px-[750px]">
           <div className="md:flex">
-            <div className="md:w-2/6">
+            <div className="qrelement md:w-2/6">
               <Card>
                 <img
                   src={"/assets/qr.png"}
@@ -49,7 +205,7 @@ function Analytics() {
               </Card>
             </div>
             <div className="md:w-4/6">
-              <div>
+              <div className="business-card">
                 <Card>
                   <div className="py-4 text-2xl font-medium">
                     Business Analytics
@@ -63,7 +219,7 @@ function Analytics() {
               </div>
 
               <div className="md:flex">
-                <div className="md:w-1/2">
+                <div className="api-card md:w-1/2">
                   <Card>
                     <div className="text-center  text-2xl font-medium">
                       Developer APIs
@@ -76,7 +232,7 @@ function Analytics() {
                     </div>
                   </Card>
                 </div>
-                <div className="md:w-1/2">
+                <div className="form-card md:w-1/2">
                   <Card>
                     <div className="text-center  text-2xl font-medium">
                       One-Click C-Form
@@ -89,30 +245,31 @@ function Analytics() {
                   </Card>
                 </div>
               </div>
-
-              <div className="mt-6 flex w-max cursor-pointer items-center justify-center rounded-full bg-white px-4 py-3 text-xl font-medium text-black sm:px-6 sm:py-4">
-                Create Business Account{" "}
-                <FaChevronRight className="ml-2 rounded-full bg-black p-1 text-white" />
+              <div ref={ButtonContainer}>
+                <div className="button mt-6 flex w-max cursor-pointer items-center justify-center rounded-full bg-white px-4 py-3 text-xl font-medium text-black sm:px-6 sm:py-4">
+                  Create Business Account{" "}
+                  <FaChevronRight className="ml-2 rounded-full bg-black p-1 text-white" />
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="py-20">
-            <div className="text-center text-5xl font-medium md:text-7xl">
+          <div className="py-20" ref={ParaContainer}>
+            <div className="title text-center text-5xl font-medium md:text-7xl">
               <span className="bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent">
                 Identified
               </span>{" "}
               by <span className="font-bold italic">qid</span>
             </div>
-            <div className="py-4 text-center text-xl md:text-2xl">
+            <div className="para py-4 text-center text-xl md:text-2xl">
               Let’s dive into the real stories of how our service has touched
               the lives of our customers.
             </div>
 
-            <div className=" mt-6 items-center  px-10">
+            <div className=" mt-6 items-center  px-10" ref={CardContainer}>
               <Carousel>
                 <CarouselContent>
-                  <CarouselItem className=" md:basis-1/2 lg:basis-1/3">
+                  <CarouselItem className=" left-card md:basis-1/2 lg:basis-1/3">
                     <PersonCard
                       img={"/assets/pq.jpg"}
                       title={
@@ -122,7 +279,7 @@ function Analytics() {
                       desc={"Property Owner, The Unmad, Dharamkot"}
                     />
                   </CarouselItem>
-                  <CarouselItem className="md:basis-1/2 lg:basis-1/3">
+                  <CarouselItem className="middle-card md:basis-1/2 lg:basis-1/3">
                     <PersonCard
                       img={"/assets/ps.jpg"}
                       title={
@@ -132,7 +289,7 @@ function Analytics() {
                       desc={"Property Owner, Unplan Hostels, Rishikesh"}
                     />
                   </CarouselItem>
-                  <CarouselItem className="md:basis-1/2 lg:basis-1/3">
+                  <CarouselItem className="right-card md:basis-1/2 lg:basis-1/3">
                     <PersonCard
                       img={"/assets/px.jpg"}
                       title={

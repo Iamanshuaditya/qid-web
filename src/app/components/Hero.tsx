@@ -17,8 +17,8 @@ const poppins = Poppins({
 
 function Hero() {
   useGSAP(() => {
-    gsap.to("#heading", { opacity: 0.8, delay: 0.5, y: -10 });
-    gsap.to("#button", { opacity: 1, delay: 0.8, y: 1 });
+    gsap.to("#heading", { opacity: 0.8, delay: 0.7, y: -10 });
+    gsap.to("#button", { opacity: 1, delay: 1, y: 1 });
   }, []);
   return (
     <div className="relative">

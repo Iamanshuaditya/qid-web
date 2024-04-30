@@ -18,18 +18,30 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Info() {
   const contentContainer = useRef<HTMLDivElement | null>(null);
+  const BaseElement = useRef<HTMLDivElement | null>(null);
+  const InfoElement = useRef<HTMLDivElement | null>(null);
 
   useGSAP(() => {
-    const tl = gsap.timeline({ paused: true });
+    const containerTl = gsap.timeline({ paused: true });
+    const baseElementTl = gsap.timeline({ paused: true });
+    const InfoElemetTl = gsap.timeline({ paused: true });
+    const ShareElmentTl = gsap.timeline({ paused: true });
     const textContainer =
       contentContainer.current?.querySelector(".text-container");
     const button = contentContainer.current?.querySelector(
       ".create-account-button",
     );
     const image = contentContainer.current?.querySelector(".mobile-image");
+    const textElement = BaseElement.current?.querySelector(".text-ele");
+    const ManageElement = BaseElement.current?.querySelector(".managing-ele");
+    const InfotextEle = InfoElement.current?.querySelector(".info-element");
+    const paratextEle = InfoElement.current?.querySelector(".para-element");
+    const sharetextEle = InfoElement.current?.querySelector(".sharetext");
+    const shareparaText = InfoElement.current?.querySelector(".sharepara");
 
-    if (textContainer && button && image) {
-      tl.from(textContainer, { x: "-100vw", duration: 2, ease: "power3.out" })
+    if (textContainer && button && image && textElement && ManageElement) {
+      containerTl
+        .from(textContainer, { x: "-100vw", duration: 2, ease: "power3.out" })
         .from(
           button,
           { x: "-100vw", duration: 2, ease: "power3.out", stagger: 0.2 },
@@ -40,20 +52,98 @@ function Info() {
           { x: "100vw", duration: 2, ease: "power3.out", stagger: -0.2 },
           0,
         );
-    } else {
-      console.error("Elements not found within content container");
     }
 
-    const trigger = ScrollTrigger.create({
+    if (textElement && ManageElement) {
+      baseElementTl
+        .from(
+          textElement,
+          {
+            x: "-100vw",
+            duration: 2,
+            ease: "power3.out",
+            stagger: 0.2,
+          },
+          0,
+        )
+        .from(
+          ManageElement,
+          {
+            y: "100vw",
+            duration: 2,
+            ease: "power3.out",
+            stagger: -0.2,
+          },
+          0,
+        );
+    }
+
+    if (InfotextEle && paratextEle) {
+      InfoElemetTl.from(
+        InfotextEle,
+        {
+          y: "-50vh",
+          duration: 2,
+          ease: "power3.inOut",
+          stagger: -0.2,
+          opacity: 0,
+        },
+        0,
+      ).from(
+        paratextEle,
+        { y: "100vh", duration: 2, ease: "power3.inOut", stagger: -0.2 },
+        0,
+      );
+    }
+
+    if (sharetextEle && shareparaText) {
+      ShareElmentTl.from(
+        sharetextEle,
+        { y: "100vh", duration: 2, ease: "power3.inOut", stagger: -0.2 },
+        0,
+      ).from(
+        shareparaText,
+        { y: "100vh", duration: 2, ease: "power3.inOut", stagger: -0.2 },
+        0,
+      );
+    }
+    const containerTrigger = ScrollTrigger.create({
       trigger: contentContainer.current,
       start: "top bottom",
       end: "bottom top",
       toggleActions: "play none none reverse",
-      onEnter: () => tl.play(),
+      onEnter: () => containerTl.play(),
+    });
+
+    const baseElementTrigger = ScrollTrigger.create({
+      trigger: BaseElement.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => baseElementTl.play(),
+    });
+
+    const InfoElementTrigger = ScrollTrigger.create({
+      trigger: InfoElement.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => InfoElemetTl.play(),
+    });
+
+    const ShareElementTrigger = ScrollTrigger.create({
+      trigger: InfoElement.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => ShareElmentTl.play(),
     });
 
     return () => {
-      trigger.kill();
+      containerTrigger.kill();
+      baseElementTrigger.kill();
+      InfoElementTrigger.kill();
+      ShareElementTrigger.kill();
     };
   });
 
@@ -89,9 +179,9 @@ function Info() {
               />
             </div>
           </div>
-          <div className="pb-10 md:flex">
+          <div className="pb-10 md:flex" ref={BaseElement}>
             <div className=" -mt-10 mb-10 flex space-x-3 md:hidden lg:ml-14 xl:ml-48">
-              <div className="shadow-top-left -mt-14 h-min w-1/2 rounded-3xl border border-white/40 bg-[#121e13] p-4">
+              <div className="shadow-top-left  -mt-14 h-min w-1/2 rounded-3xl border border-white/40 bg-[#121e13] p-4">
                 <div className="py-4 text-center text-2xl text-white sm:text-5xl">
                   Managing
                 </div>
@@ -111,12 +201,12 @@ function Info() {
             </div>
 
             <div
-              className={`text-[rgba(255, 255, 255, 0.82) ]   text-3xl font-bold text-white md:w-[40%] md:text-5xl
+              className={`text-[rgba(255, 255, 255, 0.82) ] text-ele  text-3xl font-bold text-white md:w-[40%] md:text-5xl
               xl:text-[3.4375em] ${raleway.className}`}
             >
               Two Base elements of Identity ecosystem
             </div>
-            <div className="hidden w-2/3 space-x-3 md:flex lg:ml-14 xl:ml-52">
+            <div className="managing-ele hidden w-2/3 space-x-3 md:flex lg:ml-14 xl:ml-52">
               <div
                 className="shadow-top-left -mt-6 h-min   rounded-3xl   border-[1px] border-solid border-[#FFFFFF30]  bg-[#121e13] p-4 "
                 style={{
@@ -167,16 +257,18 @@ function Info() {
                 <div className="h-56 w-2 bg-gradient-to-b from-orange-500  to-transparent md:h-36 "></div>
               </div>
             </div>
-            <div className="ml-4 lg:-ml-4">
+            <div className="ml-4 lg:-ml-4" ref={InfoElement}>
               <div className="py-10">
-                <div className="text-3xl text-white md:w-[500px] md:text-5xl">
+                <div
+                  className={`info-element text-3xl leading-10 text-white md:w-[500px] md:text-[2.500em] ${raleway.className}`}
+                >
                   Your true identity,{" "}
                   <span className="bg-gradient-to-r from-green-200 to-green-500 bg-clip-text text-transparent">
                     managed
                   </span>{" "}
                   with ease.
                 </div>
-                <div className="pt-4 text-white/40">
+                <div className="para-element pt-4 text-white/40">
                   With qid, managing your IDs has never been easier. You can
                   store and access all your IDs in one place, share them
                   securely with others, and even get them verified with just a
@@ -187,13 +279,17 @@ function Info() {
               </div>
 
               <div className="py-10">
-                <div className="text-3xl text-white md:w-[600px] md:text-5xl">
-                  <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
+                <div
+                  className={` text-3xl leading-10 text-white md:w-[600px] md:text-[2.50em] ${raleway.className}`}
+                >
+                  <span
+                    className={`sharetext bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent `}
+                  >
                     Share
                   </span>{" "}
                   your identity with ease, qid has got you covered!
                 </div>
-                <div className="pt-4 text-white/40">
+                <div className="sharepara pt-4 text-white/40">
                   Sharing IDs with qid is simple and convenient. Just add the ID
                   to your qid profile and share it with anyone, anytime,
                   anywhere. No need to carry physical IDs or worry about losing
