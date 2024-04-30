@@ -4,7 +4,19 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useRef } from "react";
 import gsap from "gsap";
+import { Poppins } from "next/font/google";
+import { Raleway } from "next/font/google";
 
+const poopins = Poppins({
+  weight: "700",
+  subsets: ["latin"],
+  style: "italic",
+});
+const raleway = Raleway({
+  weight: "700",
+  subsets: ["latin"],
+  style: "normal",
+});
 function Business() {
   const contentContainer = useRef<HTMLDivElement | null>(null);
   useGSAP(() => {
@@ -65,13 +77,18 @@ function Business() {
           ref={contentContainer}
           className="absolute left-0 top-0 flex h-full w-full flex-col  items-center px-12 xl:px-52   2xl:px-[750px]"
         >
-          <div className=" left-content mt-6 text-center text-4xl font-medium text-white md:text-7xl 2xl:text-8xl">
-            <span className="font-bold italic">qid</span> for{" "}
+          <div
+            className={` left-content mt-6 text-center text-4xl font-medium text-white md:text-7xl 2xl:text-8xl ${raleway.className}`}
+          >
+            <span className={`font-bold italic ${poopins.className}`}>qid</span>{" "}
+            for{" "}
             <span className="bg-gradient-to-br from-gray-100/10 to-white bg-clip-text text-transparent">
               business
             </span>
           </div>
-          <div className="right-content mt-4 text-center  text-xl font-medium text-white md:text-4xl">
+          <div
+            className={`right-content mt-4 text-center  text-xl font-medium text-white md:text-3xl ${raleway.className}`}
+          >
             manage all your IDs with one QR
           </div>
         </div>

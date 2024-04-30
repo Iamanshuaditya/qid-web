@@ -5,6 +5,19 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Poppins, Raleway } from "next/font/google";
+
+const raleway = Raleway({
+  weight: "700",
+  subsets: ["latin"],
+  style: "normal",
+});
+
+const poopins = Poppins({
+  weight: "600",
+  subsets: ["latin"],
+  style: "normal",
+});
 
 gsap.registerPlugin(ScrollTrigger);
 const Support = () => {
@@ -58,12 +71,16 @@ const Support = () => {
         className="min-w-screen overflow-hidden   bg-[url(https://oneqid.com/wp-content/uploads/2023/09/grid-for-video.png)] bg-contain bg-center"
       >
         <div className="h-full w-full bg-black/80 px-6">
-          <div className="font-abc grid min-h-screen  max-w-7xl grid-cols-1 place-items-center text-white md:grid-cols-2   md:gap-x-8 md:px-16 lg:mx-auto">
+          <div
+            className={`font-abc grid min-h-screen  max-w-7xl grid-cols-1 place-items-center text-white md:grid-cols-2   md:gap-x-8 md:px-16 lg:mx-auto ${raleway.className}`}
+          >
             <div className="contactus col-span-1 flex w-11/12 flex-col gap-6 pt-32">
-              <div className="text-5xl font-semibold text-white md:text-7xl">
+              <div
+                className={`text-5xl font-semibold text-white md:text-[5.4375em] ${raleway.className}`}
+              >
                 Contact Us
               </div>
-              <div className="text-2xl font-semibold leading-tight text-stone-300/90">
+              <div className="w-[101%] text-2xl font-semibold leading-tight text-stone-300/90">
                 Discover Qid – Your Partner in Secure Identity Management
               </div>
               <div className="flex items-center gap-2 text-lg font-semibold text-gray-100 ">
@@ -72,7 +89,7 @@ const Support = () => {
               </div>
               <div className="font-abc flex items-center gap-2 text-lg font-semibold text-gray-100">
                 <FaPhoneAlt className="h-6 w-5" />
-                <div className="font-abc">+91 960 950 849 0</div>
+                <div className={`${poopins.className}`}>+91 960 640 640 4</div>
               </div>
               <hr className="my-2 w-3/4 md:px-44"></hr>
               <div className="text-3xl font-semibold  tracking-wide text-blue-400 md:text-3xl">
@@ -81,7 +98,7 @@ const Support = () => {
             </div>
             <div className="form col-span-1 w-full px-1 py-6 md:pt-24">
               <div className="w-full gap-3 rounded-[24px] border-[1px] border-stone-500 bg-black/60 p-6 md:w-11/12  md:p-10 ">
-                <InputBox classname="border-b-[1px] border-stone-500 bg-transparent w-full   py-2 outline-none">
+                <InputBox classname="border-b-[1px] border-stone-500 text-[#b8b8b8] bg-transparent w-full   py-2 outline-none">
                   Name <span className="text-red-500">*</span>
                 </InputBox>
                 <div className="flex w-full flex-col gap-3 md:flex-row">
