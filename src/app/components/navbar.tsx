@@ -77,16 +77,16 @@ function Navbar() {
             className={`fixed left-0 top-20 z-20 w-full bg-[#202020] text-white ${raleway.className} transform font-bold transition duration-300 ease-in-out ${menu ? "opacity-100" : "opacity-0"}`}
           >
             <Link
-              className="border-b border-black px-8 py-3 hover:bg-[#3F444B]"
-              href="/app"
+              className="flex border-b border-black px-8 py-3 hover:bg-[#3F444B]"
+              href={"/app"}
             >
               App
             </Link>
-            <div className="border-b border-black px-8 py-3 hover:bg-[#3F444B]">
+            <div className="border-b border-black px-8 py-3 hover:bg-[#3F444B] ">
               C-Form pro
             </div>
             <Link
-              className="border-b border-black px-8 py-3 hover:bg-[#3F444B]"
+              className="flex border-b border-black px-8 py-3 hover:bg-[#3F444B]"
               href={"/contact"}
             >
               Contact
