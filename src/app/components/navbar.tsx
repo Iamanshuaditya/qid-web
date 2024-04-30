@@ -1,12 +1,12 @@
 "use client";
-
 import { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { Poppins } from "next/font/google";
 import { Raleway } from "next/font/google";
 import Link from "next/link";
-export const poppins = Poppins({
+
+const poppins = Poppins({
   weight: "600",
   subsets: ["latin"],
   display: "swap",
@@ -19,6 +19,7 @@ const raleway = Raleway({
 
 function Navbar() {
   const [menu, setMenu] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
 
   function toggle() {
     setMenu(!menu);
@@ -30,6 +31,7 @@ function Navbar() {
         <Link
           href={"/"}
           className={`font-poppins   cursor-pointer text-[38px] font-medium italic text-[#cecece]    ${poppins.className}`}
+          onClick={() => setActiveLink("")}
         >
           qid
         </Link>
@@ -51,7 +53,8 @@ function Navbar() {
         >
           <Link
             href={"/app"}
-            className="transform cursor-pointer text-[#7A7A7A] duration-500 hover:text-white"
+            className={`transform cursor-pointer duration-500 ${activeLink === "/app" ? "text-white" : "text-[#7A7A7A]"} hover:text-white`}
+            onClick={() => setActiveLink("/app")}
           >
             App
           </Link>
@@ -60,7 +63,8 @@ function Navbar() {
           </div>
           <Link
             href={"/contact"}
-            className="transform cursor-pointer text-[#7A7A7A] duration-500 hover:text-white"
+            className={`transform cursor-pointer duration-500 ${activeLink === "/contact" ? "text-white" : "text-[#7A7A7A]"} hover:text-white`}
+            onClick={() => setActiveLink("/contact")}
           >
             Contact
           </Link>

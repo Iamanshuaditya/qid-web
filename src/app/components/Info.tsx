@@ -83,7 +83,7 @@ function Info() {
         InfotextEle,
         {
           y: "-50vh",
-          duration: 2,
+          duration: 1.2,
           ease: "power3.inOut",
           stagger: -0.2,
           opacity: 0,
@@ -91,7 +91,7 @@ function Info() {
         0,
       ).from(
         paratextEle,
-        { y: "100vh", duration: 2, ease: "power3.inOut", stagger: -0.2 },
+        { y: "100vh", duration: 1.2, ease: "power3.inOut", stagger: -0.2 },
         0,
       );
     }

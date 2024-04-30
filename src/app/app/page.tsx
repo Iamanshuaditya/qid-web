@@ -1,11 +1,64 @@
+"use client";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { useRef } from "react";
 
+gsap.registerPlugin(ScrollTrigger);
 const Downloadapp = () => {
+  const contentContainer = useRef<HTMLDivElement | null>(null);
+  useGSAP(() => {
+    const containerTl = gsap.timeline({ paused: true });
+    const Store = contentContainer.current?.querySelector(".store");
+    const Image = contentContainer.current?.querySelector(".img");
+
+    if (Store && Image) {
+      containerTl
+        .from(
+          Store,
+          {
+            x: "-100vw",
+            duration: 1.5,
+            ease: "power3.out",
+            stagger: 0.2,
+            opacity: 0,
+          },
+          0,
+        )
+        .from(
+          Image,
+          {
+            y: "100vw",
+            duration: 1.5,
+            ease: "power3.out",
+            stagger: 0.2,
+            opacity: 0,
+          },
+          0,
+        );
+    }
+
+    const ContainerTrigger = ScrollTrigger.create({
+      trigger: contentContainer.current,
+      start: "top bottom",
+      end: "bottom top",
+      toggleActions: "play none none reverse",
+      onEnter: () => containerTl.play(),
+    });
+
+    return () => {
+      ContainerTrigger.kill();
+    };
+  });
   const classname = "w-full mb-1 hover:cursor-pointer";
   return (
-    <div className="min-w-screen  flex flex-col items-center">
+    <div
+      className="min-w-screen  flex flex-col items-center overflow-hidden"
+      ref={contentContainer}
+    >
       <div className="flex w-full max-w-6xl flex-col items-center justify-center gap-x-3 px-3 pb-8 pt-32 md:grid md:grid-cols-2 md:place-items-center md:px-4 md:pt-28">
-        <div className=" flex flex-grow flex-col gap-8">
+        <div className=" store flex flex-grow flex-col gap-8">
           <div className="font-abc  text-4xl font-extrabold tracking-tight text-black md:text-6xl">
             Get the qid App
           </div>
@@ -39,7 +92,7 @@ const Downloadapp = () => {
             </div>
           </div>
         </div>
-        <div className="w-full flex-grow ">
+        <div className="img w-full flex-grow ">
           <img
             alt=""
             className="h-full w-full"
